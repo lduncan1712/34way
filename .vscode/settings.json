@@ -1,9 +1,0 @@
-{
-    "files.associations": {
-        "unordered_map": "c",
-        "stdio.h": "c",
-        "stdlib.h": "c",
-        "math.h": "c",
-        "string.h": "c"
-    }
-}
