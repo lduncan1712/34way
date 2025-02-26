@@ -4,9 +4,7 @@
 #include <string.h>
 #include <math.h>
 
-#define L 10000
-#define N 10000
-#define K 501
+long long K, L, N;
 
 
 
@@ -28,7 +26,7 @@ void sort_floats(float arr[], int n) {
     }
 }
 
-// Split function
+// Split function (Generate Row)
 void split(int lamb, int m, int values[]) {
     float breaks[K];
     for (int i = 0; i < m - 1; i++) {
@@ -55,7 +53,7 @@ void split(int lamb, int m, int values[]) {
     }
 }
 
-// Goal split function
+// Goal split function (Generate 3 Solution Rows)
 void goal_split(int array[3][K]) {
     int row_sum = K * L / 3;
 
@@ -97,25 +95,38 @@ void goal_split(int array[3][K]) {
 
 // Generate files function
 void generate_files() {
+
+    //Generates Rows To Be Solution
     int sol_rows[3];
     for (int i = 0; i < 3; i++) {
         sol_rows[i] = rand() % N;
     }
 
+    //Generates Solution
     int sol_split[3][K];
     goal_split(sol_split);
 
+    //Files To Create
     FILE *files[3];
     char *filenames[] = {"A.txt", "B.txt", "C.txt"};
 
     for (int i = 0; i < 3; i++) {
+
+        //Opening File
+        printf("\n BUILDING: %s: ", filenames[i]);
         files[i] = fopen(filenames[i], "w");
         if (files[i] == NULL) {
             printf("Error opening file %s\n", filenames[i]);
             return;
         }
 
+        //Adding Rows
         for (int row = 0; row < N; row++) {
+
+            //Progress
+            if (row % N/100 == 0){printf("P");}
+
+            //Adding To File
             if (row == sol_rows[i]) {
                 for (int j = 0; j < K; j++) {
                     fprintf(files[i], "%d ", sol_split[i][j]);
@@ -133,12 +144,18 @@ void generate_files() {
         fclose(files[i]);
     }
 
-    printf("Test data generated and written to A.txt, B.txt, and C.txt.\n");
-    printf("Solution rows: %d %d %d\n", sol_rows[0], sol_rows[1], sol_rows[2]);
+    printf("\n Solution Rows: %d %d %d\n", sol_rows[0], sol_rows[1], sol_rows[2]);
 }
 
-int main() {
+
+int main(int argc, char *argv[]) {
     srand(time(NULL));
+
+    K = atoll(argv[1]);
+    L = atoll(argv[2]);
+    N = atoll(argv[3]);
+
     generate_files();
+
     return 0;
 }
