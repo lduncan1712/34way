@@ -100,20 +100,7 @@ int four_sum_with_ids(long long **A_rows, long long A_counts,
         long long min_ab = target - C_rows[C_counts - 1][1] - D_rows[D_counts - 1][1];
         long long max_ab = target - C_rows[0][1] - D_rows[0][1];
 
-        printf("In");
-
-
-        // for (int a = 0; a < A_counts; a++){
-        //     for (int b = 0; b < B_counts; b++){
-        //         for (int c = 0; c < C_counts; c++){
-        //             for (int d = 0; d < D_counts; d++){
-        //                 if (A_rows[a][1] + B_rows[b][1] + C_rows[c][1] + D_rows[d][1] == target){
-        //                     printf("    SOLUTION: %lld %lld %lld %lld  ", A_rows[a][0], B_rows[b][0], C_rows[c][0], D_rows[d][0]);
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
+      
 
         // Step 1: Store all (A + B) sums in the hash table
     for (int a = 0; a < A_counts; a++) {
@@ -133,8 +120,8 @@ int four_sum_with_ids(long long **A_rows, long long A_counts,
 
             // If complement exists, print solution
             if (search_hash(complement)) {
-                printf("SOLUTION FOUND (*): %lld + %lld + %lld + %lld = %d\n", 
-                       C_rows[c][1], D_rows[d][1], complement, sum_cd, target);
+                printf("SOLUTION FOUND (*): %lld(2) + %lld + %lld = %d\n", 
+                       complement, C_rows[c][1], D_rows[d][1], target);
             }
         }
     }
@@ -202,82 +189,74 @@ void solve(long long ****A_rows, long long **A_counts,
     long long **cr;
     long long **dr;  
 
-    printf("\nCoverage:\n");
-    for (int y = 0; y < M; y++){
-        printf("\n---------");
-        for (int z = 0; z < M; z++){
-            printf("%lld, %lld, %lld, %lld\n",A_counts[y][z],B_counts[y][z],C_counts[y][z],D_counts[y][z]);
-        }
-    }
+    // printf("\nCoverage:\n");
+    // for (int y = 0; y < M; y++){
+    //     printf("\n---------");
+    //     for (int z = 0; z < M; z++){
+    //         printf("%lld, %lld, %lld, %lld\n",A_counts[y][z],B_counts[y][z],C_counts[y][z],D_counts[y][z]);
+    //     }
+    // }
 
-    printf("\nExact\n");
-    for (int x = 0; x < M; x++){
-        for (int z = 0; z < M; z++){
-            for (int y = 0; y < A_counts[x][z]; y++){
-                printf("A: %lld %lld %lld   %lld %lld\n", x, z, y, A_rows[x][z][y][0],A_rows[x][z][y][1]);
-            }
-        }
-    }
-    for (int x = 0; x < M; x++){
-        for (int z = 0; z < M; z++){
-            for (int y = 0; y < B_counts[x][z]; y++){
-                printf("B: %lld %lld %lld   %lld %lld\n", x, z, y, B_rows[x][z][y][0],B_rows[x][z][y][1]);
-            }
-        }
-    }
-    for (int x = 0; x < M; x++){
-        for (int z = 0; z < M; z++){
-            for (int y = 0; y < C_counts[x][z]; y++){
-                printf("C: %lld %lld %lld   %lld %lld\n", x, z, y, C_rows[x][z][y][0],C_rows[x][z][y][1]);
-            }
-        }
-    }
-    for (int x = 0; x < M; x++){
-        for (int z = 0; z < M; z++){
-            for (int y = 0; y < D_counts[x][z]; y++){
-                printf("D: %lld %lld %lld   %lld %lld\n", x, z, y, D_rows[x][z][y][0],D_rows[x][z][y][1]);
-            }
-        }
-    }
+    // printf("\nExact\nA,N,G#,F#,PROD");
+    // for (int x = 0; x < M; x++){
+    //     for (int z = 0; z < M; z++){
+    //         for (int y = 0; y < A_counts[x][z]; y++){
+    //             printf("A: %lld %lld %lld   %lld %lld\n", x, z, y, A_rows[x][z][y][0],A_rows[x][z][y][1]);
+    //         }
+    //     }
+    // }
+    // for (int x = 0; x < M; x++){
+    //     for (int z = 0; z < M; z++){
+    //         for (int y = 0; y < B_counts[x][z]; y++){
+    //             printf("B: %lld %lld %lld   %lld %lld\n", x, z, y, B_rows[x][z][y][0],B_rows[x][z][y][1]);
+    //         }
+    //     }
+    // }
+    // for (int x = 0; x < M; x++){
+    //     for (int z = 0; z < M; z++){
+    //         for (int y = 0; y < C_counts[x][z]; y++){
+    //             printf("C: %lld %lld %lld   %lld %lld\n", x, z, y, C_rows[x][z][y][0],C_rows[x][z][y][1]);
+    //         }
+    //     }
+    // }
+    // for (int x = 0; x < M; x++){
+    //     for (int z = 0; z < M; z++){
+    //         for (int y = 0; y < D_counts[x][z]; y++){
+    //             printf("D: %lld %lld %lld   %lld %lld\n", x, z, y, D_rows[x][z][y][0],D_rows[x][z][y][1]);
+    //         }
+    //     }
+    // }
 
+    // Iterate through combinations of a1, b1, c1
+    for (long long a1 = 0; a1 < M; a1++) {
+        for (long long b1 = 0; b1 < M; b1++) {
+            for (long long c1 = 0; c1 < M; c1++) {
 
+                // Calculate the required d1 that satisfies the condition
+                long long d1 = (goal_agg - (a1 + b1 + c1)) % M;
+                if (d1 < 0) d1 += M; // Ensure non-negative values for d1
 
-    int theoretical = 0;
-    int actual = 0;
+                // Now check for combinations of a2, b2, c2, and d2
+                for (long long a2 = 0; a2 < M; a2++) {
+                    for (long long b2 = 0; b2 < M; b2++) {
+                        for (long long c2 = 0; c2 < M; c2++) {
 
-    for (long long a1 = 0; a1 < M; a1++){
-        for (long long b1 = 0; b1 < M; b1++){
-            for (long long c1 = 0; c1 < M; c1++){
-                for (long long d1 = 0; d1 < M; d1++){
-                    
-                    if (((a1 + b1 + c1 + d1) % M) == goal_agg % M){
+                            // Calculate the required d2 that satisfies the condition
+                            long long d2 = (goal_agg - (a2 + b2 + c2)) % M;
+                            if (d2 < 0) d2 += M; 
 
-                        for (long long a2 = 0; a2 < M; a2++){
-                            for (long long b2 = 0; b2 < M; b2++){
-                                for (long long c2 = 0; c2 < M; c2++){
-                                    for (long long d2 = 0; d2 < M; d2++){
+                            if (1 == 1) {
+                                
+                                if ((A_counts[a1][a2] > 0) && (B_counts[b1][b2] > 0) &&
+                                    (C_counts[c1][c2] > 0) && (D_counts[d1][d2] > 0)) {
 
-
-                                        if (1==1){
-                                            if (((a2 + b2 + c2 + d2) % M) == goal_agg % M){
-                                                actual += 1;
-                                                if ((A_counts[a1][a2] > 0) & (B_counts[b1][b2] > 0) &
-                                                    (C_counts[c1][c2] > 0) & (D_counts[d1][d2] > 0)){
-                                                        printf("ABOUT %lld %lld %lld", a1, b1, c1, d1);
-                                                four_sum_with_ids(A_rows[a1][a2], A_counts[a1][a2],
-                                                                  B_rows[b1][b2], B_counts[b1][b2],
-                                                                  C_rows[c1][c2], C_counts[c1][c2],
-                                                                  D_rows[d1][d2], D_counts[d1][d2],
-                                                                  goal_agg);
-                                                
-                                                    }
-
-                                                
-                                            }
-                                        }
-                                        theoretical += 1;
-
-                                    }
+                                    // Assuming four_sum_with_ids takes the necessary arguments
+                                    four_sum_with_ids(
+                                        A_rows[a1][a2], A_counts[a1][a2],
+                                        B_rows[b1][b2], B_counts[b1][b2],
+                                        C_rows[c1][c2], C_counts[c1][c2],
+                                        D_rows[d1][d2], D_counts[d1][d2],
+                                        goal_agg);
                                 }
                             }
                         }
@@ -286,54 +265,8 @@ void solve(long long ****A_rows, long long **A_counts,
             }
         }
     }
-    printf("%lld %lld", theoretical, actual);
-  
-
-
-    // int f = 0;
-    // int g = 0;
-
-    // // // For every A section
-    // for (long long am = 0; am < M; am++) {
-    //     an = A_counts[am];
-    //     ar = A_rows[am];  
- 
-    //    long long mod_rem = (goal_mod - am + M) % M;
-
-    //     // Find Bm, Cm such that remainders line up
-    //     for (long long bm = 0; bm < M; bm++) {
-    //         bn = B_counts[bm];
-    //         br = B_rows[bm];  
-    //         for (long long cm = 0; cm < M; cm++) {
-    //             cn = C_counts[cm];
-    //             cr = C_rows[cm];  
-
-    //             for (long long dm = 0; dm < M; dm++){
-    //                 dn = D_counts[dm];
-    //                 dr = D_rows[dm];  
-
-    //                 if (((bm + cm + dm) % M) == mod_rem) {
-    //                     f += 1;
-    //                     if ((an > 0) & (bn > 0) & (cn > 0) & (dn > 0)){
-                            
-    //                         four_sum_with_ids(ar, an, br, bn, cr, cn, dr, dn, goal_agg);
-    //                     } 
-    //                 } 
-    //                 g += 1;
-    //             }
-    //         }
-    //     }
-    // }
-
-    // printf("LENGTH: %d  %d", f, g);
- }
-
-
-
-
-
-
-
+}
+    
 
 //GOOD
 void setup(long long *****rows, long long ***counts, const char *filename){
@@ -355,7 +288,7 @@ void setup(long long *****rows, long long ***counts, const char *filename){
 
     long long **group_pos = (long long **)malloc(M * sizeof(long long *));
     for (int i = 0; i < M; i++){
-        group_pos[i] = (long long *)malloc(M * sizeof(long long));
+        group_pos[i] = (long long *)calloc(M, sizeof(long long));
     }
 
     //File
@@ -369,7 +302,6 @@ void setup(long long *****rows, long long ***counts, const char *filename){
         //Dispay
         if (n % N/100 == 0){printf("P");}
 
-        printf(" A");
 
         //Determine Agg
         agg = 0;
@@ -390,6 +322,7 @@ void setup(long long *****rows, long long ***counts, const char *filename){
     }
     fclose(file);  
 
+    printf("|");
     
 
     //Size Long Term
@@ -399,6 +332,8 @@ void setup(long long *****rows, long long ***counts, const char *filename){
         }
         
     }
+
+    printf("|");
     
 
     //Fill Long Term
@@ -408,28 +343,27 @@ void setup(long long *****rows, long long ***counts, const char *filename){
         //Display
         if (n % N/50 == 0){printf("P");}
 
-        printf(" 1");
+    
         
         group = temp[n][1] % M;
         ngroup = temp[n][2] % M;
         size = group_pos[group][ngroup];
 
-        printf("2:_%lld_%lld_%lld_",size, group, ngroup);
-
         (*rows)[group][ngroup][size] = (long long *)malloc(3 * sizeof(long long));
         (*rows)[group][ngroup][size][0] = temp[n][0];  
         (*rows)[group][ngroup][size][1] = temp[n][1];  
+
 
         
 
         group_pos[group][ngroup] += 1;
 
-        printf("4\n");
+       
 
 
     }
 
-    printf(" A");
+  
 
    
 
@@ -441,13 +375,16 @@ void setup(long long *****rows, long long ***counts, const char *filename){
         
     }
 
-    printf(" B");
+
 
 
     for (int x = 0; x < N; x++){
         free(temp[x]);
+    }
+    for (int x = 0; x < M; x++){
         free(group_pos[x]);
     }
+
     free(temp);
     free(group_pos);
 }
