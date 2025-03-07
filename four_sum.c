@@ -227,6 +227,9 @@ void solve(long long ****A_rows, long long **A_counts,
     //     }
     // }
 
+    int possible = 0;
+    int real = 0;
+
     // Iterate through combinations of a1, b1, c1
     for (long long a1 = 0; a1 < M; a1++) {
         for (long long b1 = 0; b1 < M; b1++) {
@@ -246,6 +249,7 @@ void solve(long long ****A_rows, long long **A_counts,
                             if (d2 < 0) d2 += M; 
 
                             if (1 == 1) {
+                                possible += 1;
                                 
                                 if ((A_counts[a1][a2] > 0) && (B_counts[b1][b2] > 0) &&
                                     (C_counts[c1][c2] > 0) && (D_counts[d1][d2] > 0)) {
